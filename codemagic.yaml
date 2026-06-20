@@ -1,0 +1,17 @@
+workflows:
+  android-workflow:
+    name: Build Android Debug APK
+    max_build_duration: 30
+    instance_type: mac_mini_m1
+    environment:
+      java: 17
+    triggering:
+      events:
+        - push
+    scripts:
+      - name: Build Android App
+        script: |
+          cd android_app
+          gradle assembleDebug --no-daemon
+    artifacts:
+      - android_app/app/build/outputs/apk/debug/*.apk
