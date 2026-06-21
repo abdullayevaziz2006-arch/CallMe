@@ -16,7 +16,7 @@ workflows:
           gradle wrapper --gradle-version 8.2
           chmod +x gradlew
           echo "Starting Gradle Build..."
-          ./gradlew clean assembleDebug --no-daemon --stacktrace > build.log 2>&1 || BUILD_FAILED=true
+          ./gradlew clean assembleDebug --no-daemon --stacktrace --gradle-user-home .gradle_home > build.log 2>&1 || BUILD_FAILED=true
           if [ "$BUILD_FAILED" = true ]; then
             echo "=== GRADLE BUILD FAILED ==="
             echo "--- Kotlin Compiler Errors ---"
