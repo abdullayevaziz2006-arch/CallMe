@@ -48,7 +48,7 @@ class SttEngine(private val context: Context) {
         }
 
         // Write raw shorts to recognizer
-        val resultReady = voskRecognizer?.acceptWaveform(pcmData, pcmData.size) ?: false
+        val resultReady = voskRecognizer?.acceptWaveForm(pcmData, pcmData.size) ?: false
         if (resultReady) {
             val jsonResult = voskRecognizer?.result ?: ""
             val text = parseVoskText(jsonResult)
