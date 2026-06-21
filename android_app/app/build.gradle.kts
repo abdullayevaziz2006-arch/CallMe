@@ -50,6 +50,9 @@ dependencies {
     
     // ONNX Runtime for offline translation models (NLLB-200)
     implementation("com.microsoft.onnxruntime:onnxruntime-android:1.16.0")
+    
+    // Kotlin Coroutines for asynchronous translation
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
