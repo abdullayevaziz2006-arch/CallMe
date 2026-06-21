@@ -15,6 +15,19 @@ workflows:
           rm -rf .gradle app/.gradle build app/build
           gradle wrapper --gradle-version 8.2
           chmod +x gradlew
-          ./gradlew clean assembleDebug --no-daemon --stacktrace
+          echo "Starting Gradle Build..."
+          ./gradlew clean assembleDebug --no-daemon --stacktrace > build.log 2>&1 || BUILD_FAILED=true
+          if [ "$BUILD_FAILED" = true ]; then
+            echo "=== GRADLE BUILD FAILED ==="
+            echo "--- Kotlin Compiler Errors ---"
+            grep -rn "e: " build.log || echo "No Kotlin compiler errors found in log."
+            echo "--- Gradle Failure Details ---"
+            grep -A 10 "What went wrong" build.log || echo "No 'What went wrong' section found."
+            echo "--- Last 100 lines of Build Log ---"
+            tail -n 100 build.log
+            exit 1
+          else
+            echo "Gradle Build Completed Successfully!"
+          fi
     artifacts:
       - android_app/app/build/outputs/apk/debug/*.apk
