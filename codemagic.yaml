@@ -12,8 +12,9 @@ workflows:
       - name: Build Android App
         script: |
           cd android_app
+          rm -rf .gradle app/.gradle build app/build
           gradle wrapper --gradle-version 8.2
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          ./gradlew clean assembleDebug --no-daemon --stacktrace
     artifacts:
       - android_app/app/build/outputs/apk/debug/*.apk
