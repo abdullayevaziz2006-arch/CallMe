@@ -18,13 +18,18 @@ workflows:
           echo "Starting Gradle Build..."
           ./gradlew clean assembleDebug --no-daemon --stacktrace --gradle-user-home .gradle_home > build.log 2>&1 || BUILD_FAILED=true
           if [ "$BUILD_FAILED" = true ]; then
-            echo "=== GRADLE BUILD FAILED ==="
-            echo "--- Kotlin Compiler Errors ---"
-            grep -rn "e: " build.log || echo "No Kotlin compiler errors found in log."
-            echo "--- Gradle Failure Details ---"
-            grep -A 10 "What went wrong" build.log || echo "No 'What went wrong' section found."
             echo "--- Last 100 lines of Build Log ---"
             tail -n 100 build.log
+            echo ""
+            echo "========================================="
+            echo "=== CRITICAL GRADLE BUILD ERRORS FOUND ==="
+            echo "========================================="
+            echo "--- Kotlin Compiler Errors ---"
+            grep -in "e: " build.log || echo "No Kotlin compiler errors found."
+            echo ""
+            echo "--- What Went Wrong ---"
+            grep -i -A 10 "What went wrong" build.log || echo "No 'What went wrong' section found."
+            echo "========================================="
             exit 1
           else
             echo "Gradle Build Completed Successfully!"
